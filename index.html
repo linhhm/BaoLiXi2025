@@ -207,13 +207,14 @@
         to_email: "hmailinh9@gmail.com" // Thay bằng email của bạn
     };
 
-    emailjs.send("service_mk9fe5b", "template_saqdtrc", emailParams)
-        .then(response => {
-            console.log("Email sent!", response.status, response.text);
-        })
-        .catch(error => {
-            console.error("Failed to send email", error);
-        });
+    emailjs.send("service_mk9fe5b", "template_v4zldh9", emailParams)
+    .then(response => {
+        console.log("Email sent!", response.status, response.text);
+    })
+    .catch(error => {
+        console.error("Failed to send email", error);
+    });
+
 }
 
 
@@ -246,7 +247,7 @@
             document.getElementById("resetButton").style.display = "none"; // Ẩn nút reset
         }
         (function () {
-    emailjs.init("HrnhSD9xl5fz2n85J"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
+    emailjs.init("wtsUn1g7jXi9m1LBk"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
 })();
 
 
