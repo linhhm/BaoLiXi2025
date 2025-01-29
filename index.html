@@ -107,23 +107,26 @@
 
     <script>
         function getRandomAmount() {
-            let amounts = [];
+    let amounts = [];
 
-            // Tăng tỉ lệ số tiền nhỏ
-            for (let i = 1000; i <= 10000; i += 1000) {
-                amounts.push(i, i, i, i, i); // Xuất hiện nhiều hơn
-            }
+    // Tăng tỉ lệ số tiền nhỏ
+    for (let i = 1000; i <= 10000; i += 1000) {
+        amounts.push(i, i, i, i, i,i,i); // Xuất hiện nhiều hơn
+    }
 
-            for (let i = 11000; i <= 30000; i += 1000) {
-                amounts.push(i, i); // Tỉ lệ trung bình
-            }
+    for (let i = 11000; i <= 30000; i += 1000) {
+        amounts.push(i, i); // Tỉ lệ trung bình
+    }
 
-            for (let i = 31000; i <= 50000; i += 1000) {
-                amounts.push(i); // Số tiền lớn xuất hiện ít
-            }
+    // Giảm tỉ lệ các số tiền lớn (30.000 - 50.000 VNĐ)
+    for (let i = 31000; i <= 50000; i += 1000) {
+        // Giảm số lần xuất hiện của các số tiền lớn
+        amounts.push(i); // Mỗi số tiền lớn chỉ xuất hiện 1 lần
+    }
 
-            return amounts[Math.floor(Math.random() * amounts.length)];
-        }
+    return amounts[Math.floor(Math.random() * amounts.length)];
+}
+
 
         function openBaoLiXi(event) {
             let user = localStorage.getItem("username");
