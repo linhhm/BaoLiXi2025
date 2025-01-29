@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Bốc Bao Lì Xì Tết 2025</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffefd5;
+        }
+
+        h1 {
+            color: #d70000;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bao-li-xi {
+            width: 120px;
+            height: 180px;
+            background-color: #d70000;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease-in-out;
+            overflow: hidden;
+        }
+
+        .bao-li-xi:hover {
+            transform: scale(1.1);
+        }
+
+        .bao-li-xi::before {
+            content: "Chúc mừng Tết!";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            color: white;
+            opacity: 0.8;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .opened {
+            background-color: #ffd700;
+            color: #d70000;
+            font-size: 18px;
+        }
+
+        /* Thêm icon vào bao lì xì */
+        .bao-li-xi i {
+            font-size: 30px;  /* Kích thước icon */
+            margin-bottom: 10px;  /* Khoảng cách giữa icon và số tiền */
+            position: absolute;
+            top: 15%;  /* Căn chỉnh icon ở phần trên (chiếm 20% phần trên) */
+            left: 50%;
+            transform: translateX(-50%); /* Căn giữa icon */
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bốc Bao Lì Xì May Mắn 2025</h1>
+
+    <!-- Form nhập thông tin -->
+    <div id="loginForm">
+        <input type="text" id="username" placeholder="Nhập tên của bạn"><br>
+        <input type="text" id="bankAccount" placeholder="Nhập số tài khoản"><br>
+        <input type="text" id="bankName" placeholder="Nhập tên ngân hàng"><br>
+        <button onclick="login()">Xác nhận</button>
+    </div>
+
+    <!-- Khu vực chọn bao lì xì -->
+    <div class="container" id="baoContainer"></div>
+
+    <!-- Kết quả sau khi bốc lì xì -->
+    <div id="result"></div>
+    <!-- <button id="resetButton" onclick="resetGame()" style="display: none;">Xóa dữ liệu và chơi lại</button> -->
+
+
+    <script>
+        function getRandomAmount() {
+            let amounts = [];
+
+            // Tăng tỉ lệ số tiền nhỏ
+            for (let i = 1000; i <= 10000; i += 1000) {
+                amounts.push(i, i, i, i, i); // Xuất hiện nhiều hơn
+            }
+
+            for (let i = 11000; i <= 30000; i += 1000) {
+                amounts.push(i, i); // Tỉ lệ trung bình
+            }
+
+            for (let i = 31000; i <= 50000; i += 1000) {
+                amounts.push(i); // Số tiền lớn xuất hiện ít
+            }
+
+            return amounts[Math.floor(Math.random() * amounts.length)];
+        }
+
+        function openBaoLiXi(event) {
+            let user = localStorage.getItem("username");
+            let hasOpened = localStorage.getItem("opened_" + user);
+
+            if (hasOpened) {
+                alert("Bạn đã bốc lì xì rồi!");
+                return;
+            }
+
+
+            let bao = event.target;
+            let amount = getRandomAmount();
+            bao.textContent = amount.toLocaleString() + " VNĐ";
+            bao.classList.add("opened");
+
+            // Lưu trạng thái đã bốc lì xì
+            localStorage.setItem("opened_" + user, amount);
+            displayResult(user, amount);
+        }
+
+        function createBaoLiXi() {
+            let container = document.getElementById("baoContainer");
+            container.innerHTML = "";
+            for (let i = 0; i < 45; i++) {
+                let bao = document.createElement("div");
+                bao.classList.add("bao-li-xi");
+
+                // Thêm icon vào mỗi bao lì xì
+                let icon = document.createElement("i");
+                icon.classList.add("fas", "fa-gift"); 
+                bao.appendChild(icon);
+
+                bao.addEventListener("click", openBaoLiXi);
+                container.appendChild(bao);
+            }
+        }
+
+        function login() {
+            let username = document.getElementById("username").value.trim();
+            let bankAccount = document.getElementById("bankAccount").value.trim();
+            let bankName = document.getElementById("bankName").value.trim();
+
+            if (username === "" || bankAccount === "" || bankName === "") {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            localStorage.setItem("username", username);
+            localStorage.setItem("bankAccount_" + username, bankAccount);
+            localStorage.setItem("bankName_" + username, bankName);
+
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("baoContainer").style.display = "flex";
+            createBaoLiXi();
+
+            let hasOpened = localStorage.getItem("opened_" + username);
+            if (hasOpened) {
+                displayResult(username, hasOpened);
+            }
+        }
+
+        function displayResult(username, amount) {
+            let bankAccount = localStorage.getItem("bankAccount_" + username);
+            let bankName = localStorage.getItem("bankName_" + username);
+
+            document.getElementById("result").innerHTML = `
+        Chúc mừng ${username}!<br>
+        Bạn đã nhận được <strong>${amount.toLocaleString()} VNĐ</strong>.<br>
+        Thông tin ngân hàng: ${bankName} - STK: ${bankAccount}<br>
+        Chúc bạn 1 năm mới An Lành, nhiều sức khỏe!!!
+    `;
+
+            // document.getElementById("resetButton").style.display = "block"; // Hiện nút reset
+            document.getElementById("baoContainer").style.display = "none";
+        }
+
+
+        function checkLogin() {
+            let user = localStorage.getItem("username");
+            if (user) {
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("baoContainer").style.display = "flex";
+                createBaoLiXi();
+
+                let hasOpened = localStorage.getItem("opened_" + user);
+                if (hasOpened) {
+                    displayResult(user, hasOpened);
+                }
+            }
+        }
+        function resetGame() {
+            let user = localStorage.getItem("username");
+
+            if (user) {
+                localStorage.removeItem("opened_" + user);
+                localStorage.removeItem("bankAccount_" + user);
+                localStorage.removeItem("bankName_" + user);
+                localStorage.removeItem("username");
+            }
+
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("baoContainer").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+            document.getElementById("resetButton").style.display = "none"; // Ẩn nút reset
+        }
+
+
+
+        checkLogin();
+    </script>
+</body>
+
+</html>
