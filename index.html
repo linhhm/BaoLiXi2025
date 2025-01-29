@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <title>Bốc Bao Lì Xì Tết 2025</title>
     <style>
         body {
@@ -185,19 +187,34 @@
         }
 
         function displayResult(username, amount) {
-            let bankAccount = localStorage.getItem("bankAccount_" + username);
-            let bankName = localStorage.getItem("bankName_" + username);
+    let bankAccount = localStorage.getItem("bankAccount_" + username);
+    let bankName = localStorage.getItem("bankName_" + username);
 
-            document.getElementById("result").innerHTML = `
+    document.getElementById("result").innerHTML = `
         Chúc mừng ${username}!<br>
         Bạn đã nhận được <strong>${amount.toLocaleString()} VNĐ</strong>.<br>
         Thông tin ngân hàng: ${bankName} - STK: ${bankAccount}<br>
-        Chúc bạn 1 năm mới An Lành, nhiều sức khỏe!!!
-    `;
+        Chúc bạn 1 năm mới An Lành, nhiều sức khỏe!!!`;
 
-            // document.getElementById("resetButton").style.display = "block"; // Hiện nút reset
-            document.getElementById("baoContainer").style.display = "none";
-        }
+    document.getElementById("baoContainer").style.display = "none";
+
+    // Gửi email qua EmailJS
+    let emailParams = {
+        username: username,
+        amount: amount.toLocaleString() + " VNĐ",
+        bankAccount: bankAccount,
+        bankName: bankName,
+        to_email: "hmailinh9@gmail.com" // Thay bằng email của bạn
+    };
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", emailParams)
+        .then(response => {
+            console.log("Email sent!", response.status, response.text);
+        })
+        .catch(error => {
+            console.error("Failed to send email", error);
+        });
+}
 
 
         function checkLogin() {
@@ -228,6 +245,9 @@
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("resetButton").style.display = "none"; // Ẩn nút reset
         }
+        (function () {
+    emailjs.init("HrnhSD9xl5fz2n85J"); // Thay YOUR_PUBLIC_KEY bằng Public Key từ EmailJS
+})();
 
 
 
